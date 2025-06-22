@@ -1,0 +1,23 @@
+xPin = int(A0)
+yPin = int(A1)
+buttonPin = int(2)
+def setup():
+	serialbegin(9600)
+	pinmode(buttonPin, INPUT_PULLUP)
+	pinmode(xPin, INPUT)
+	pinmode(yPin, INPUT)
+def loop():
+	xValue = int(analogread(xPin))
+	yValue = int(analogread(yPin))
+	buttonState = int(digitalread(buttonPin))
+	serialprint("X: ")
+	serialprint(xValue)
+	serialprint(" | Y: ")
+	serialprint(yValue)
+	serialprint(" | Button: ")
+	if  buttonState == LOW:
+		serialprintln("Pressed")
+	else:
+		serialprintln("Released")
+	delay(200)
+run()

@@ -1,0 +1,19 @@
+def setup():
+	pinmode(A0, INPUT)
+	pinmode(8, OUTPUT)
+	pinmode(A1, INPUT)
+	pinmode(A2, INPUT)
+
+def loop():
+	if digitalread(A0) == HIGH:
+		tone(8, 440, 100)
+		
+  	if digitalread(A1) == HIGH:
+		tone(8, 494, 100)
+		
+ 	if digitalread(A2) == HIGH:
+		tone(8, 523, 100)
+		
+	delay(10)
+	
+run()

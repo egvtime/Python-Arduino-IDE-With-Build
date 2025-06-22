@@ -1,0 +1,75 @@
+from arduino import *
+GameGoing = true
+
+pirPin = 12
+pirStat = 0
+greenlight = true
+
+GreenPin = 10 
+RedPin = 9
+
+seconds = 0
+
+ButtonPin = 7
+buttonState = 0
+
+Piezo = 13
+
+def setup():
+	pinmode(ButtonPin, INPUT)
+	pinmode(pirPin, INPUT)
+	pinmode(GreenPin, OUTPUT)
+	pinmode(RedPin, OUTPUT) 
+	pinmode(Piezo, OUTPUT)
+	serialbegin(9600)
+
+def loop():
+	if GameGoing == true:
+		digitalwrite(Piezo, LOW)
+		Game()
+	else:
+		Button()
+
+def Game():
+	if greenlight == true:
+		digitalwrite(GreenPin, HIGH)
+		digitalwrite(RedPin, 0)
+		GreenLight()
+
+		buttonState = digitalread(ButtonPin)
+
+		if buttonState == HIGH:
+			GameGoing = false
+			serialprintln("Game Won")
+
+	if greenlight == false:
+		digitalwrite(GreenPin, 0)
+		digitalwrite(RedPin, 1)
+		delay(2000)
+		RedLight()
+
+def GreenLight():
+  	delay(random(1000, 10000))
+  	greenlight = false
+
+
+def RedLight():
+	seconds++
+	pirStat = digitalread(pirPin)
+	if pirStat == HIGH:
+		serialprintln("Motion Detected!") 
+		GameGoing = false
+ 	else:
+		serialprintln(seconds)
+	if seconds >= 10:
+		seconds = 0
+		greenlight = true
+
+
+def Button():
+	buttonState = digitalread(ButtonPin)
+	serialprintln("Game Lost")
+	digitalwrite(Piezo, HIGH)
+	if buttonState == HIGH:
+		GameGoing = true
+run()

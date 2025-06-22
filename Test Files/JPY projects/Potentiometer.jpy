@@ -1,0 +1,10 @@
+potPin = int(A0)
+ledPin = int(9)
+def setup():
+	pinmode(ledPin, OUTPUT)
+def loop():
+	potValue = int(analogread(potPin))
+	brightness = int(map(potValue, 0, 1023, 0, 255))
+	analogwrite(ledPin, brightness)
+	delay(10)
+run()

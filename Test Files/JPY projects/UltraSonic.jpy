@@ -1,0 +1,23 @@
+trigpin = 9
+echopin = 10 
+
+def setup():
+	pinmode(trigpin, OUTPUT)
+	pinmode(echopin, INPUT)
+	serialbegin(9600)
+
+def loop():
+	serialprintln("Distance:")
+	serialprintln(getdistance())
+	delay(100)
+	
+def getdistance():
+	digitalwrite(trigpin, LOW)
+	delaymicroseconds(2)
+	digitalwrite(trigpin, HIGH)
+	delaymicroseconds(2)
+	digitalwrite(trigpin, LOW)
+	distance = double(pulsein(echopin, HIGH)* 0.034 / 2)
+	return distance
+
+run()

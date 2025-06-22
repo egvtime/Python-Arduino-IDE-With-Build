@@ -1,0 +1,19 @@
+servoPin = int(9)
+angle = int(0)
+def setup():
+	pinmode(servoPin, OUTPUT)
+def loop():
+	angle = 90
+	moveServo()
+	delay(1000)
+	angle = 180
+	moveServo()
+	delay(1000)
+def moveServo():
+	pulseWidth = int(map(angle, 0, 180, 1000, 2000))
+	for i in range(0, 50):
+		digitalwrite(servoPin, HIGH)
+		delaymicroseconds(pulseWidth)
+		digitalwrite(servoPin, LOW)
+		delaymicroseconds(20000 - pulseWidth)
+run()
